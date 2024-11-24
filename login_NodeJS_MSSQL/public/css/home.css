@@ -1,0 +1,50 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('../img/warframe_wallpaper.png') center center no-repeat;
+    font-family: 'roboto', sans-serif;
+}
+
+.container {
+    position: relative;
+    width: 90%;
+    height: 87vh;
+    border: 3px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logout {
+    position: absolute;
+    top: 10%;
+    right: 0;
+    padding: 10px 20px;
+    text-transform: capitalize;
+    font-size: 16px;
+    color: #fff;
+    background: none;
+    text-decoration: underline;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+.greeting {
+    font-family: 'dosis', sans-serif;
+    font-size: 100px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: capitalize;
+}
