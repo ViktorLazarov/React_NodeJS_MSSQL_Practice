@@ -15,18 +15,22 @@ const App = () => {
     }, [])
 
     return (
-        <div>
-            {users.map((user) => {
-                return <>
-                    <div style={{border: "1px solid gray", width: "auto", minWidth: "400px"}}>
-                        <h1>Firstname:{user.Firstname}</h1>
-                        <h1>Lastname:{user.Lastname}</h1>
-                        <h1>Username:{user.Username}</h1>
-                        <h1>Email:{user.Email}</h1>
-                    </div>
-                </>
-            })}
-        </div>
+        <>
+            <ul>
+                {users.map((user) => {
+                    return (
+                        <li key={user.id}>
+                            <ul id="user-element">
+                                <li>Firstname:{user.name.split(' ')[0]}</li>
+                                <li>Lastname:{user.name.split(' ')[1]}</li>
+                                <li>Username:{user.username}</li>
+                                <li>Email:{user.email}</li>
+                            </ul>
+                        </li>
+                    )
+                })}
+            </ul>
+        </>
 
     )
 }

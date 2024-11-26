@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import {fetchUsers} from "./services/user/fetchUsers.js";
 import {registerUser} from "./services/user/registerUser.js";
-
+import users from "./services/user/users.js";
 
 const app = express();
 app.use(cors());
@@ -16,15 +16,21 @@ app.get('/', (req, res) => {
 });
 
 
-app.get('/api/users', async (req, res) => {
-    try {
-        const users = await fetchUsers();
+// app.get('/api/users', async (req, res) => {
+//     try {
+//         const users = await fetchUsers();
+//
+//         console.log("users sent to the frontend")
+//         res.send(users.recordset);
+//     } catch (err) {
+//         res.status(500).json({error: 'Internal server error'});
+//     }
+// });
 
-        console.log("users sent to the frontend")
-        res.send(users.recordset);
-    } catch (err) {
-        res.status(500).json({error: 'Internal server error'});
-    }
+//send the content of the users.js to the frontend
+app.get('/api/users', async (req, res) => {
+    console.log("users sent to the frontend")
+    res.send(users);
 });
 
 const user = {
@@ -35,16 +41,16 @@ const user = {
     email: 'john.doe@gmail.com111111'
 }
 app.get('/api/register', async (req, res) => {
-    try{
+    try {
         const response = await registerUser(user);
         res.status(201).json(response);
     } catch (error) {
         if (error.message === 'Please fill all the fields' ||
             error.message === 'Username is already registered' ||
             error.message === 'Email is already registered') {
-            return res.status(400).json({ message: error.message });
+            return res.status(400).json({message: error.message});
         }
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({message: 'Server error'});
     }
 });
 
