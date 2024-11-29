@@ -1,0 +1,12 @@
+footer {
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+    cursor: default;
+    background: linear-gradient(-90deg, rgb(17, 53, 255), rgb(106, 155, 255));
+}

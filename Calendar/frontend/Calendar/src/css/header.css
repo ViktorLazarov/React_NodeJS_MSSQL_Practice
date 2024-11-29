@@ -1,0 +1,5 @@
+.header {
+    width: calc(100vw - 130px);
+    height:100px;
+    background-color: red;
+}

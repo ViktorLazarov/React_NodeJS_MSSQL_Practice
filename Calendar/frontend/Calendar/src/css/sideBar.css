@@ -1,0 +1,16 @@
+.main-sidebar {
+    background: linear-gradient(225deg, rgb(17, 53, 255), rgb(106, 155, 255) 90%);
+    height: 100vh;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    color: white;
+}
+.main-sidebar a {
+    cursor: pointer;
+}
+.main-sidebar a:nth-last-child(1) {
+    color: cyan;
+}
