@@ -4,10 +4,11 @@ interface FileInputProps {
     onFileChange: (file: File) => void;
 }
 
-const PictureUploadInput: React.FC<FileInputProps>= ({onFileChange}) => {
+const PictureUploadInput: React.FC<FileInputProps> = ({onFileChange}) => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
+
         if (file) {
             onFileChange(file);
         }

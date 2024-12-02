@@ -10,7 +10,6 @@
 }
 .main-sidebar a {
     cursor: pointer;
-}
-.main-sidebar a:nth-last-child(1) {
-    color: cyan;
+    font-size: 1.5rem;
+    text-decoration: none;
 }

@@ -1,5 +1,8 @@
-.header {
-    width: calc(100vw - 130px);
-    height:100px;
-    background-color: red;
+.headerIndex {
+    color: #383E47;
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    padding-top: 20px;
+    cursor: default;
 }

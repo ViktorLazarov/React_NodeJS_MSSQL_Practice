@@ -14,7 +14,7 @@
     box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
 }
 
-#closePopup3 {
+#closeCreatePopup {
     display: flex;
     justify-content: center;
     align-items: center;

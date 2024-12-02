@@ -1,5 +1,0 @@
-.display-users {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    place-content: space-evenly;
-}

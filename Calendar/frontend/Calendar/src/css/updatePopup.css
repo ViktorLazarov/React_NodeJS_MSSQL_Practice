@@ -1,0 +1,143 @@
+.updatePopup {
+    display: none;
+    position: fixed;
+    padding: 10px;
+    width: 570px;
+    left: 50%;
+    margin-left: -150px;
+    height: auto;
+    top: 11%;
+    margin-top: -100px;
+    background: #fff;
+    z-index: 20;
+    border-radius: 10px;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+}
+
+#closePopup3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: white;
+    width: 25px;
+    height: 25px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.dayNumberPopUp {
+    display: flex;
+    justify-content: flex-start;
+    margin-right: 30px;
+    margin-left: 10px;
+    font-size: 40px;
+    border-bottom: 1px solid grey;
+    height: 60px;
+}
+.headerAzubiPopup {
+    color: #383E47;
+    display: flex;
+    justify-content: center;
+    cursor: default;
+    position: relative;
+}
+.headerAzubiPopup:hover .picture-upload-container {
+    display: flex;
+}
+
+.picture-upload-container {
+    width: 30px;
+    height: 30px;
+    display: none;
+    position: absolute;
+    top: 88%;
+    right: 30%;
+    padding: 0 2px;
+    border-radius: 25%;
+    cursor: pointer;
+}
+#AccountPict {
+    position: relative;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+}
+
+#azubi-pic {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.picture-upload-container input {
+    width: 30px;
+    height: 30px;
+    opacity: 0;
+    position: absolute;
+}
+.scrollMe2 {
+    /*overflow: scroll;*/
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+#updateAzubiBtn, #createStandort, #createTeam, #createAbteilung {
+    display: inline-block;
+    padding: 10px 10px;
+    width: 50%;
+    color: #ffffff;
+    background: linear-gradient(90deg, rgb(17, 53, 255), rgb(106, 155, 255));
+    font-size: 20px;
+    border-radius: 50vh;
+    border: 1px solid white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+#deleteAzubiBtn{
+    display: inline-block;
+    padding: 10px 10px;
+    width: 50%;
+    color: #ffffff;
+    background: linear-gradient(90deg, rgb(243, 11, 11), rgb(228, 113, 113));
+    font-size: 20px;
+    border-radius: 50vh;
+    border: 1px solid white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+#createAzubiBtn:hover {
+    color: #bdbaba;
+}
+.azubiInput {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 500px;
+    font-size: 14px;
+    margin: 0 auto;
+}
+.formatTogether {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+.azubiInput input, .azubiInput select, .azubiInputSmall input, .azubiInputSmall select {
+    height: 35px;
+    width: 100%;
+    margin-bottom: 10px;
+    margin-right: 2px;
+    margin-left: 2px;
+    border-radius: 20px;
+    border: 1px solid grey;
+    background-color: #0000000C;
+    text-align: center;
+    font-size: 17px;
+}
+.neueDaten {
+    cursor: pointer;
+}
+

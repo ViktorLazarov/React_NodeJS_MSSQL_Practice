@@ -1,4 +1,4 @@
-import {Buffer} from '../components/inner/UserCard.tsx'
+import {Buffer} from '../components/main/AzubiCard.tsx'
 export interface User {
     ID?: number,
     Azubikey: string,
@@ -10,5 +10,5 @@ export interface User {
     Team: string,
     Bundesland: string,
     Standort: string,
-    Bild?: Buffer | string | ArrayBuffer
+    Bild?: Buffer
 }

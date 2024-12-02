@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {createAzubi, getAllUsers, getUserById} from "../handlers/users";
+import {createAzubi, deleteById, getAllUsers, getUserById, updateAzubi} from "../handlers/users";
 
 const router: Router = Router();
 
@@ -15,4 +15,9 @@ router.get('/getById/:id', getUserById);
 // =>  api/users/createUser
 router.post('/createAzubi', createAzubi);
 
+// =>  api/users/deleteAzubiById/:id
+router.delete('/deleteAzubiById/:id', deleteById);
+
+// =>  api/users/updateAzubi
+router.put('/updateAzubi', updateAzubi);
 export default router;

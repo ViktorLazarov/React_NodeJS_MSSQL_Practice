@@ -1,14 +1,13 @@
 // @ts-ignore
 import '../../css/createPopup.css'
-import React, {useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import {PictureUploadLabel} from "../inner/PictureUpload.tsx";
 import PictureUploadInput from "../inner/PictureUploadInput.tsx";
 import AccountPic from "../inner/AccountPic.tsx";
-import {User} from "../../types/User.ts";
-import {read} from "node:fs";
+import {getBundesland} from "../../features/getBundesland.ts";
 
 
-const CreatePopup = () => {
+const CreatePopup = ():React.JSX.Element => {
     const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>('../src/assets/defaultAccPic.png');
     const [vorname, setVorname] = useState<string>('');
     const [nachname, setNachname] = useState<string>('');
@@ -17,22 +16,43 @@ const CreatePopup = () => {
     const [stadt, setStadt] = useState('');
     const [abteilung, setAbteilung] = useState('');
     const [team, setTeam] = useState('');
-    const [file, setFile] = useState<string>('');
+    const [userPic, setUserPic] = useState<File>();
 
-    const bundesland = getBundesland();
-    const azubiKey = vorname.slice(0, 3).toUpperCase() + '-' + nachname.slice(0, 3).toUpperCase() + '-' + bundesland;
+    const bundesland: string = getBundesland(stadt);
+    const azubiKey: string = vorname.slice(0, 3).toUpperCase() + '-' + nachname.slice(0, 3).toUpperCase() + '-' + bundesland;
 
 
-    function getBundesland(): string {
-        let bundesland = '';
-        if (stadt === 'Koblenz') {
-            bundesland = 'RP';
-        } else if (stadt === 'Oberessendorf') {
-            bundesland = 'BW';
-        } else if (stadt === 'Siegen') {
-            bundesland = 'NW';
+
+    function validateInput (): boolean{
+        if (!vorname) {
+            alert('Please enter a valid Vorname');
+            return false;
         }
-        return bundesland;
+        if (!nachname) {
+            alert('Please enter a valid Nachname');
+            return false;
+        }
+        if (ausBeginn >= ausEnde) {
+            alert('Ausbildungsbeginn can not be equal or after Ausbildungsende');
+            return false;
+        }
+        if (!stadt) {
+            alert('Please choose a Stadt');
+            return false;
+        }
+        if (!abteilung) {
+            alert('Please choose Abteilung');
+            return false;
+        }
+        if (!team) {
+            alert('Please choose a Team');
+            return false;
+        }
+        if (!userPic) {
+            alert('Please upload a user Picture');
+            return false;
+        }
+        return true;
     }
 
     function closeCreatePopup(): void {
@@ -42,85 +62,90 @@ const CreatePopup = () => {
 
 
     useEffect(() => {
-        const today = new Date();
-        const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-        const year = firstDayOfMonth.getFullYear();
-        const month = String(firstDayOfMonth.getMonth() + 1).padStart(2, '0'); // Months are zero-based, add 1
-        const day = String(firstDayOfMonth.getDate()).padStart(2, '0');
-        const formattedDate = `${year}-${month}-${day}`;
+        const today: Date = new Date();
+        const firstDayOfMonth: Date = new Date(today.getFullYear(), today.getMonth(), 1);
+        const year: number = firstDayOfMonth.getFullYear();
+        const month: string = String(firstDayOfMonth.getMonth() + 1).padStart(2, '0'); // Months are zero-based, add 1
+        const day: string = String(firstDayOfMonth.getDate()).padStart(2, '0');
+        const formattedDate: string = `${year}-${month}-${day}`;
 
         setAusBeginn(formattedDate);
         setAusEnde(formattedDate);
     }, [])
 
     async function createUser() {
-        const formData = new FormData();
-        formData.append('azubiKey', azubiKey);
-        formData.append('vorname', vorname);
-        formData.append('nachname', nachname);
-        formData.append('ausbildungsbeginn', ausBeginn);
-        formData.append('ausbildungsende', ausEnde);
-        formData.append('abteilung', abteilung);
-        formData.append('team', team);
-        formData.append('bundesland', bundesland);
-        formData.append('standort', stadt);
-        formData.append('Bild', file);
-        // for (const [key, value] of formData.entries()) {
-        //     console.log(`${key}: ${value}`);
-        // }
-        try {
-            const response = await fetch('http://localhost:3010/api/users/createAzubi', {
-                method: 'POST',
-                body: formData
-            });
-        } catch (err) {
-            console.error('Error:', err);
-            console.log('An error occurred while creating the user.');
+
+        if (validateInput()){
+
+            const formData: FormData = new FormData();
+            formData.append('azubiKey', azubiKey);
+            formData.append('vorname', vorname);
+            formData.append('nachname', nachname);
+            formData.append('ausbildungsbeginn', ausBeginn);
+            formData.append('ausbildungsende', ausEnde);
+            formData.append('abteilung', abteilung);
+            formData.append('team', team);
+            formData.append('bundesland', bundesland);
+            formData.append('standort', stadt);
+            formData.append('image', userPic);
+
+            try {
+                const response: Response = await fetch('http://localhost:3010/api/users/createAzubi', {
+                    method: 'POST',
+                    body: formData
+                });
+                window.location.reload();
+            } catch (err) {
+                console.error('Error:', err);
+                console.log('An error occurred while creating the user.');
+            }
         }
+
     }
 
 
-    function handleVornameChange(evt) {
+    function handleVornameChange(evt: ChangeEvent<HTMLInputElement>) {
         setVorname(evt.target.value);
     }
 
-    function handleNachnameChange(evt) {
+    function handleNachnameChange(evt: ChangeEvent<HTMLInputElement>) {
         setNachname(evt.target.value);
     }
 
-    function handleAusBeginnChange(evt) {
+    function handleAusBeginnChange(evt: ChangeEvent<HTMLInputElement>) {
         setAusBeginn(evt.target.value);
     }
 
-    function handleAusEndeChange(evt) {
+    function handleAusEndeChange(evt: ChangeEvent<HTMLInputElement>) {
         setAusEnde(evt.target.value);
     }
 
-    function handleStadtChange(evt) {
+    function handleStadtChange(evt: ChangeEvent<HTMLSelectElement>) {
         setStadt(evt.target.value);
     }
 
-    function handleAbteilungChange(evt) {
+    function handleAbteilungChange(evt: ChangeEvent<HTMLSelectElement>) {
         setAbteilung(evt.target.value);
     }
 
-    function handleTeamChange(evt) {
+    function handleTeamChange(evt: ChangeEvent<HTMLSelectElement>) {
         setTeam(evt.target.value);
     }
 
     const changeUserPicture = (file: File) => {
         const reader = new FileReader();
+        setUserPic(file);
         reader.onload = () => {
             setImageSrc(reader.result);
-            setFile(reader.result);
         };
         reader.readAsDataURL(file);
     }
+
     return (
         <div className="createPopup" id="createPopup">
-            <img src="../src/assets/closeBtn.png" id="closePopup3" onClick={closeCreatePopup}
+            <img src={"../src/assets/closeBtn.png"} id="closeCreatePopup" onClick={closeCreatePopup}
                  title="Fenster schließen"></img>
-            <div className="dayNumberPopUp" id="dayNumberPopUpID3">Azubi anlegen</div>
+            <div className="dayNumberPopUp" >Azubi anlegen</div>
             <div className="headerAzubiPopup">
                 <div className="picture-upload-container">
                     <PictureUploadInput onFileChange={changeUserPicture}/>
@@ -193,6 +218,5 @@ const CreatePopup = () => {
 
     )
 }
-
 
 export default CreatePopup;
