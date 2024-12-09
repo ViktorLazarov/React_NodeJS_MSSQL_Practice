@@ -1,0 +1,74 @@
+.popup {
+    display: none;
+    position: fixed;
+    padding: 10px;
+    width: 420px;
+    left: 50%;
+    margin-left: -150px;
+    height: auto;
+    top: 30%;
+    margin-top: -100px;
+    background: #fff;
+    z-index: 20;
+    border-radius: 10px;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+    line-height: 1;
+}
+.popup p{
+    font-size: 0.9rem;
+}
+input{
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+#closeCreatePopup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: white;
+    width: 25px;
+    height: 25px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+.dayNumberPopUp {
+    display: flex;
+    justify-content: flex-start;
+    margin-right: 30px;
+    margin-left: 10px;
+    font-size: 40px;
+    border-bottom: 1px solid grey;
+    height: 50px;
+}
+.scrollMe2 {
+    /*overflow: scroll;*/
+    overflow-x: hidden;
+    padding-top: 20px;
+    margin-left: 20px;
+}
+
+.terminInput {
+    border: 0 solid black;
+    border-radius: 0;
+    border-bottom: 1px solid black;
+    font-size: 18px;
+    height: 25px;
+}
+#vanish, #vanish1, #vanish2, #TerminBZ, #TerminBZ2, #TerminBZSerieBearbeiten, #TerminBZTerminBearbeiten {
+    display: none;
+}
+#vanishDropdown1 {
+    margin-top: 5px;
+}
+#TerminBZ {
+    height: 25px;
+}
+
+#abstand {
+    width: 21px;
+}
+#end {
+    width: 21px;
+}

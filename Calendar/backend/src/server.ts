@@ -3,6 +3,7 @@ import {Express, Request, Response} from "express-serve-static-core";
 import cors from 'cors';
 import bodyParser from "body-parser";
 import userRouter from './routes/users';
+import terminRouter from "./routes/termins";
 
 
 
@@ -11,7 +12,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use('/api/users', userRouter);
+app.use('/api/azubis', userRouter);
+app.use('/api/termins', terminRouter);
 
 
 app.get('/',  (req: Request, res: Response) => {

@@ -6,11 +6,11 @@ import PictureUploadInput from "../inner/PictureUploadInput.tsx";
 import AccountPic from "../inner/AccountPic.tsx";
 import {getBundesland} from "../../features/getBundesland.ts";
 import {validateInput} from "../../features/validateUserInput.ts";
-import {User} from "../../types/User.ts";
+import {UserInterface} from "../../types/UserInterface.ts";
 import {convertBinaryToBase64} from "./AzubiCard.tsx";
 
 type Props = {
-    user: User;
+    user: UserInterface;
 }
 
 

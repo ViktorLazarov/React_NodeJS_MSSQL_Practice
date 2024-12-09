@@ -7,7 +7,7 @@ import AccountPic from "../inner/AccountPic.tsx";
 import {getBundesland} from "../../features/getBundesland.ts";
 
 
-const CreatePopup = ():React.JSX.Element => {
+const CreatePopup = (): React.JSX.Element => {
     const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>('../src/assets/defaultAccPic.png');
     const [vorname, setVorname] = useState<string>('');
     const [nachname, setNachname] = useState<string>('');
@@ -22,8 +22,7 @@ const CreatePopup = ():React.JSX.Element => {
     const azubiKey: string = vorname.slice(0, 3).toUpperCase() + '-' + nachname.slice(0, 3).toUpperCase() + '-' + bundesland;
 
 
-
-    function validateInput (): boolean{
+    function validateInput(): boolean {
         if (!vorname) {
             alert('Please enter a valid Vorname');
             return false;
@@ -75,7 +74,7 @@ const CreatePopup = ():React.JSX.Element => {
 
     async function createUser() {
 
-        if (validateInput()){
+        if (validateInput()) {
 
             const formData: FormData = new FormData();
             formData.append('azubiKey', azubiKey);
@@ -88,6 +87,10 @@ const CreatePopup = ():React.JSX.Element => {
             formData.append('bundesland', bundesland);
             formData.append('standort', stadt);
             formData.append('image', userPic);
+            // for (let pair of formData.entries()) {
+            //     console.log(`${pair[0]}: ${pair[1]}`);
+            // }
+
 
             try {
                 const response: Response = await fetch('http://localhost:3010/api/users/createAzubi', {
@@ -145,7 +148,7 @@ const CreatePopup = ():React.JSX.Element => {
         <div className="createPopup" id="createPopup">
             <img src={"../src/assets/closeBtn.png"} id="closeCreatePopup" onClick={closeCreatePopup}
                  title="Fenster schließen"></img>
-            <div className="dayNumberPopUp" >Azubi anlegen</div>
+            <div className="dayNumberPopUp">Azubi anlegen</div>
             <div className="headerAzubiPopup">
                 <div className="picture-upload-container">
                     <PictureUploadInput onFileChange={changeUserPicture}/>
@@ -207,9 +210,7 @@ const CreatePopup = ():React.JSX.Element => {
                                 <option value="Team REWE" className="teamName">Team REWE</option>
                             </select>
                         </div>
-
                         <button className="neueDaten" type="button">+</button>
-
                     </div>
                 </form>
                 <button id="createAzubiBtn" onClick={createUser}>Account anlegen</button>

@@ -12,7 +12,7 @@ function HomePage() {
                 <div className={"home-sidebar"}>
                     <SideBar/>
                 </div>
-                <div className={"left-side-container"}>
+                <div className={"home-left-side-container"}>
                     <Header/>
                     <div className={"content"}>
 

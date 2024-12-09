@@ -1,11 +1,11 @@
 import React, {createElement} from "react";
 // @ts-ignore
 import '../../css/azubiCard.css'
-import {User} from "../../types/User.ts";
+import {UserInterface} from "../../types/UserInterface.ts";
 import UpdatePopup from "./UpdatePopup.tsx";
 
 type userCardProps = {
-    user: User;
+    user: UserInterface;
 }
 
 export type Buffer = {

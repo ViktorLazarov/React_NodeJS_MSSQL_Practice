@@ -1,5 +1,5 @@
 import {Buffer} from '../components/main/AzubiCard.tsx'
-export interface User {
+export interface UserInterface {
     ID?: number,
     Azubikey: string,
     Vorname: string,

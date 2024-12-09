@@ -1,12 +1,12 @@
 import {AzubiCard} from "./AzubiCard.tsx";
-import {User} from "../../types/User.ts";
+import {UserInterface} from "../../types/UserInterface.ts";
 // @ts-ignore
 import '../../css/displayAzubis.css'
 import UpdatePopup from "./UpdatePopup.tsx";
 import React, {useEffect, useState} from "react";
 
 type displayUsersProps = {
-    users: User[]
+    users: UserInterface[]
 }
 
 export function DisplayAzubis({users}: displayUsersProps) {
@@ -15,7 +15,7 @@ export function DisplayAzubis({users}: displayUsersProps) {
         <>
 
             <div className="display-users">
-                {users.map((user: User) => (
+                {users.map((user: UserInterface) => (
                     <div key={crypto.randomUUID()}>
                         <AzubiCard user={user}/>
                     </div>

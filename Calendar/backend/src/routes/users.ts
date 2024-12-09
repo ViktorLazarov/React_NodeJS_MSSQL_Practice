@@ -1,23 +1,26 @@
 import { Router } from "express";
-import {createAzubi, deleteById, getAllUsers, getUserById, updateAzubi} from "../handlers/users";
+import {createAzubi, deleteById, getAllUsers, getStandort, getUserById, updateAzubi} from "../handlers/users";
 
-const router: Router = Router();
+const userRouter: Router = Router();
 
 
 // =>  api/users
-router.get('/')
+userRouter.get('/')
 // =>  api/users/getAll
-router.get('/getAll', getAllUsers);
+userRouter.get('/getAll', getAllUsers);
 // =>  api/users/getById/:id
-router.get('/getById/:id', getUserById);
+userRouter.get('/getById/:id', getUserById);
+
+// =>  api/users/getStandort/:azubiName
+userRouter.get('/getStandort/:azubiKey', getStandort);
 
 
 // =>  api/users/createUser
-router.post('/createAzubi', createAzubi);
+userRouter.post('/createAzubi', createAzubi);
 
 // =>  api/users/deleteAzubiById/:id
-router.delete('/deleteAzubiById/:id', deleteById);
+userRouter.delete('/deleteAzubiById/:id', deleteById);
 
 // =>  api/users/updateAzubi
-router.put('/updateAzubi', updateAzubi);
-export default router;
+userRouter.put('/updateAzubi', updateAzubi);
+export default userRouter;

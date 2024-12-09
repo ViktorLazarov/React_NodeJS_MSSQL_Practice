@@ -11,10 +11,9 @@ import "./pagesCSS/azubisPage.css"
 function AzubisPage() {
 
     const [users, setUsers] = useState([])
-    const [userID, setUserID] = useState<string>('')
 
     const getUsers =  async function () {
-        await fetch('http://localhost:3010/api/users/getAll')
+        await fetch('http://localhost:3010/api/azubis/getAll')
             .then(res => res.json())
             .then(data => {
                 setUsers(data)
@@ -23,7 +22,6 @@ function AzubisPage() {
 
     useEffect(() => {
         getUsers();
-        setUserID(userID);
     }, [])
 
     return (

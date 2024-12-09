@@ -26,6 +26,32 @@ export async function getUserById(req: Request, res: Response<UserInterface>) {
     res.status(200).send(resultUser.recordset[0]);
 }
 
+export async function getStandort(req: Request, res: Response) {
+    const azubiKey = req.params.azubiKey
+    console.log(azubiKey)
+    try {
+        const pool: ConnectionPool = await getConnection();
+
+        const standort = await pool
+            .request()
+            .input('azubiKey', azubiKey)
+            .query(`SELECT [Standort]
+                    FROM [dbo].[Users_Tab]
+                    WHERE [Azubikey] = @azubiKey`);
+        if (standort.recordset.length === 0) {
+            res.status(404).json({error: 'Azubi not found'});
+            console.log('no user')
+        } else {
+            console.log('standort fetched');
+            res.status(200).json(standort.recordset[0]);
+        }
+
+    } catch (error) {
+        console.error('Error fetching from DB:', error);
+        res.status(500).json({error: 'Internal server error'});
+    }
+}
+
 export async function deleteById(req: Request, res: Response) {
     const id: number = parseInt(req.params.id);
 
@@ -78,7 +104,7 @@ export async function createAzubi(req: Request, res: Response) {
             res.status(200).send(result.recordset);
         } catch (err) {
             console.log(err)
-            res.status(400).send({message: "User could not be created"});
+            res.status(400).send({message: "UserInterface could not be created"});
         }
     })
 
@@ -108,7 +134,7 @@ export async function updateAzubi(req: Request, res: Response) {
 
 
             console.log(`Updated Azubi with id: \"${updatedUser.ID}\"`)
-            res.status(200).send({message:`Updated Azubi with id: \"${updatedUser.ID}\"`});
+            res.status(200).send({message: `Updated Azubi with id: \"${updatedUser.ID}\"`});
         } catch (err) {
             console.log(err)
             res.status(400).send({message: "Azubi could not be updated"});

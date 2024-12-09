@@ -1,25 +1,32 @@
-*{
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
-#root {
-  margin: 0 auto;
-  width: 100%;
-  height: 100%;
-}
-body{
-  height: 100vh;
-}
-.main {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
-.left-side-container {
-  width: 100%;
-  overflow-y: scroll;
+#root {
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    height: 100vh;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.left-side-container, .calendar-left-side-container {
+    width: 100%;
+    height: 97%;
+
+}
+.home-left-side-container{
+    overflow-y: scroll;
 }
 
