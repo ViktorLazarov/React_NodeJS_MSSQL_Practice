@@ -2,7 +2,7 @@ import React, {createElement} from "react";
 // @ts-ignore
 import '../../css/azubiCard.css'
 import {UserInterface} from "../../types/UserInterface.ts";
-import UpdatePopup from "./UpdatePopup.tsx";
+import UpdateAzubiPopup from "./UpdateAzubiPopup.tsx";
 
 type userCardProps = {
     user: UserInterface;
@@ -38,7 +38,7 @@ const dateEnde = new Date(user.Ausbildungsende)
 
     return (
         <>
-            <UpdatePopup user={user}/>
+            <UpdateAzubiPopup user={user}/>
             <div className="grid-item-azubi">
                 <div className="grid-item-right">
                     <div className="deleteMe2"><img src="../src/assets/azubiBearbeiten.png" className="edit-icon"

@@ -190,7 +190,7 @@ const CreateTerminPopup = (): React.JSX.Element => {
         } else {
             await createSerientermin();
         }
-
+        window.location.reload();
     }
 
     const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {

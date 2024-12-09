@@ -39,7 +39,7 @@ const UpdateSeriePopup = ({eventInfo, updateClick}: Props): React.JSX.Element =>
 
         const updateData = {
             id: eventInfo.extendedProps.location,
-            bezeichnung: bezeichnung,
+            bezeichnung: bezeichnung + '(Serie)',
             azubi: azubiDropDown,
         };
 
@@ -62,6 +62,7 @@ const UpdateSeriePopup = ({eventInfo, updateClick}: Props): React.JSX.Element =>
                     setAzubiDropDown('Ohne Azubi');
                     const repeatDropdown = document.getElementById('vanish');
                     repeatDropdown.style.display = 'none';
+                    window.location.reload();
                 })
         } catch (err) {
             console.error('Error:', err);
@@ -73,14 +74,14 @@ const UpdateSeriePopup = ({eventInfo, updateClick}: Props): React.JSX.Element =>
     const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
         setIsChecked(event.target.checked);
         if (event.target.checked) {
-            const dropdown = document.getElementById('vanishDropdown1');
+            const dropdown = document.getElementById('vanishDropdown111');
             dropdown.style.display = 'none';
-            const newCategoryInput = document.getElementById('TerminBZ');
+            const newCategoryInput = document.getElementById('TerminBZ111');
             newCategoryInput.style.display = 'block';
         } else {
-            const dropdown = document.getElementById('vanishDropdown1');
+            const dropdown = document.getElementById('vanishDropdown111');
             dropdown.style.display = 'block';
-            const newCategoryInput = document.getElementById('TerminBZ');
+            const newCategoryInput = document.getElementById('TerminBZ111');
             newCategoryInput.style.display = 'none';
         }
 
@@ -106,16 +107,14 @@ const UpdateSeriePopup = ({eventInfo, updateClick}: Props): React.JSX.Element =>
             <div className={"scrollMe2"}>
                 <form id={"terminform"}>
                     <p>Bestehende Kategorie auswählen oder neuen hinzufügen</p>
-                    <div id={"vanishDropdown1"}>
+                    <div id={"vanishDropdown111"}>
                         <select className={"terminInput"} id={"neuenTerminauswaehlen"}
                                 onChange={handleDropdownChange}>
-                            <option value={"Berufsschule"} className={"azubiName"}>Berufsschule</option>
-                            <option value={"Berufsschule(Serie)"} className={"azubiName"}>Berufsschule(Serie)</option>
-                            <option value={"test"} className={"azubiName"}>test</option>
+                            <option value={eventInfo.title.split(' ')[0]} className={"azubiName"}>{eventInfo.title.split(' ')[0]}</option>
                         </select>
                     </div>
 
-                    <input id={"TerminBZ"} type={"text"} onChange={handleInputChange} value={categoryInput}/>
+                    <input id={"TerminBZ111"} type={"text"} onChange={handleInputChange} value={categoryInput}/>
 
                     <input id={"terminNameEingabeCheckbox"} name={"neuerTerminNameEingabe"} type={"checkbox"}
                            checked={isChecked} onChange={handleCheckboxChange}/>
@@ -124,7 +123,6 @@ const UpdateSeriePopup = ({eventInfo, updateClick}: Props): React.JSX.Element =>
                     <br/>
                     <br/>
                     <br/>
-
                     <p>Azubi:</p>
                     <select value={azubiDropDown} className={"terminInput"} id={"neuenTerminAzubiZuordnen"}
                             onChange={handleAzubiDropdownChange}>

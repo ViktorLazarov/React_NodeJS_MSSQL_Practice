@@ -75,6 +75,7 @@ const CreatePopup = (): React.JSX.Element => {
     async function createUser() {
 
         if (validateInput()) {
+            console.log('no error')
 
             const formData: FormData = new FormData();
             formData.append('azubiKey', azubiKey);
@@ -93,7 +94,7 @@ const CreatePopup = (): React.JSX.Element => {
 
 
             try {
-                const response: Response = await fetch('http://localhost:3010/api/users/createAzubi', {
+                const response: Response = await fetch('http://localhost:3010/api/azubis/createAzubi', {
                     method: 'POST',
                     body: formData
                 });
@@ -102,6 +103,8 @@ const CreatePopup = (): React.JSX.Element => {
                 console.error('Error:', err);
                 console.log('An error occurred while creating the user.');
             }
+        } else {
+            console.log('error')
         }
 
     }

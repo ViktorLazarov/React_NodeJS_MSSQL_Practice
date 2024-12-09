@@ -1,4 +1,5 @@
 import {Request, Response} from "express-serve-static-core";
+// @ts-ignore
 import sql, {ConnectionPool, IResult} from "mssql";
 import getConnection from "../connection";
 
@@ -8,7 +9,7 @@ export async function getAllTermins(req: Request, res: Response) {
 
     const result: IResult<any> = await pool.request()
         .query("SELECT t.[Terminkey], t.[Bezeichnung], t.[Start], t.[Ende], t.[Azubi], t.[Ganztägig], t.[SerienterminID], u.[Vorname], u.[Nachname] FROM [dbo].[Termine_Tab] t FULL JOIN [dbo].[Users_Tab] u ON t.[Azubi] = u.[Azubikey]");
-    res.send(result.recordset);
+    res.json(result.recordset);
 }
 
 export async function createTermin(req: Request, res: Response) {
@@ -71,25 +72,24 @@ export async function updateTermin(req: Request, res: Response) {
 }
 
 export async function updateDraggedTermin(req: Request, res: Response) {
-    console.log(req.body)
-    // try {
-    //     const pool = await getConnection();
-    //
-    //     const result = await pool
-    //         .request()
-    //         .input('id', sql.Int(), parseInt(req.body.id))
-    //         .input('start', sql.VarChar(), req.body.newStart)
-    //         .input('end', sql.VarChar(), req.body.newEnd)
-    //         .query('UPDATE [dbo].[Termine_Tab] SET [Start]=@start, [Ende]=@end WHERE [Terminkey]=@id');
-    //
-    //     console.log('termin Updated after dragging!')
-    //
-    //     res.status(200).send(result.recordset);
-    //
-    // } catch (err) {
-    //     console.log(err)
-    //     res.status(400).send({message: "Termin could not be updated"});
-    // }
+
+    try {
+        const pool = await getConnection();
+
+        const result = await pool
+            .request()
+            .input('id', sql.Int(), parseInt(req.body.id))
+            .input('start', sql.VarChar(), req.body.newStart)
+            .input('end', sql.VarChar(), req.body.newEnd)
+            .query('UPDATE [dbo].[Termine_Tab] SET [Start]=@start, [Ende]=@end WHERE [Terminkey]=@id');
+
+        console.log('termin Updated after dragging!')
+
+        res.status(200).send(result.recordset);
+    } catch (err) {
+        console.log(err)
+        res.status(400).send({message: "Termin could not be updated"});
+    }
 
 }
 
@@ -176,7 +176,7 @@ export async function deleteTerminById(req: Request, res: Response) {
             .input('serieID', sql.Int(), serieID)
             .query("SELECT * FROM [dbo].[Termine_Tab] WHERE [SerienterminID] = @serieID");
 
-        if(serieTermins.recordset.length === 0){
+        if (serieTermins.recordset.length === 0) {
             await pool
                 .request()
                 .input('serieID', sql.Int(), serieID)

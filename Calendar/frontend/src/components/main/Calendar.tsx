@@ -4,17 +4,15 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import {TerminInterface} from "../../types/terminInterface";
-import {EventInterface} from "../../types/eventInterface";
 import deLocale from '@fullcalendar/core/locales/de'
 import ClickPopup from "./ClickPopup.tsx";
-import {EventInput} from "@fullcalendar/core";
+import {EventInterface} from "../../types/eventInterface.ts";
+import {TerminInterface} from "../../types/terminInterface.ts";
 
 
 function Calendar() {
-    const [termins, setTermins] = useState([]);
     const [eventInfo, setEventInfo] = useState(null);
-    const [events, setEvents] = useState<EventInput[]>([]);
+    const [events, setEvents] = useState<EventInterface[]>([]);
     const [showClickPopup, setShowClickPopup] = useState<boolean>(false);
 
     useEffect(() => {
@@ -41,14 +39,6 @@ function Calendar() {
 
     }, []);
 
-    const getTermins = async function () {
-        await fetch('http://localhost:3010/api/termins/getAll')
-            .then(res => res.json())
-            .then(data => {
-                setTermins(data)
-            });
-    }
-
     const showCreateTerminPopup = function () {
         const createTerminPopup: HTMLElement | null = document.getElementById('popupWindow2');
         // @ts-ignore
@@ -66,106 +56,56 @@ function Calendar() {
         }
     }
 
+
+    // populate the local events storage with the termins from the database
     useEffect(() => {
-        getTermins();
-        const transformedEvents = termins.map((termin) => {
-            if (
-                termin.Azubi &&
-                termin.Terminkey &&
-                termin.Start &&
-                termin.Ende &&
-                termin.Bezeichnung
-            ) {
-                const event: EventInput = {
-                    id: termin.Terminkey.toString(),
-                    title:
-                        termin.Vorname && termin.Nachname
-                            ? `${termin.Bezeichnung} ${termin.Vorname} ${termin.Nachname}`
-                            : `${termin.Bezeichnung}`,
-                    start: '',
-                    end: '',
-                    extendedProps: {
-                        description: termin.Bezeichnung,
-                        location: termin.SerienterminID?.toString() || '',
-                    },
-                    className: 'event-font',
-                };
+        const fetchEvents = async () => {
+            const response = await fetch('http://localhost:3010/api/termins/getAll');
+            const data = await response.json();
 
-                if (termin.Bezeichnung === 'Berufsschule') {
-                    event.backgroundColor = '#e63939';
+            const transformedEvents = data.map((termin: TerminInterface) => {
+                if (termin.Azubi && termin.Terminkey && termin.Start && termin.Ende && termin.Bezeichnung) {
+                    const event: EventInterface = {
+                        id: termin.Terminkey.toString(),
+                        title: '',
+                        start: '',
+                        end: '',
+                        extendedProps: {
+                            description: termin.Bezeichnung,
+                            location: termin.SerienterminID?.toString() || '',
+                        }
+                    };
+
+                    // Populate title based on presence of name
+                    event.title = termin.Vorname && termin.Nachname
+                        ? `${termin.Bezeichnung} ${termin.Vorname} ${termin.Nachname}`
+                        : termin.Bezeichnung;
+
+                    if (termin.Bezeichnung === 'Berufsschule') {
+                        event.backgroundColor = '#e63939';
+                    }
+
+                    // Handle all-day events and date formatting
+                    if (termin.Ganztägig || new Date(termin.Ende).getDate() > new Date(termin.Start).getDate()) {
+                        event.allDay = true;
+                        event.start = new Date(termin.Start).toISOString().split('T')[0];
+                        const terminEndDate = new Date(termin.Ende);
+                        terminEndDate.setDate(terminEndDate.getDate() + 1);
+                        event.end = terminEndDate.toISOString().split('T')[0];
+                    } else {
+                        event.allDay = false;
+                        event.start = new Date(termin.Start).toISOString().split('.')[0];
+                        event.end = new Date(termin.Ende).toISOString().split('.')[0];
+                    }
+                    event.className = 'event-font';
+                    return event;
                 }
-
-                if (
-                    termin.Ganztägig ||
-                    new Date(termin.Ende).getDate() > new Date(termin.Start).getDate()
-                ) {
-                    event.allDay = true;
-                    event.start = new Date(termin.Start).toISOString().split('T')[0];
-                    const terminEndDate = new Date(termin.Ende);
-                    terminEndDate.setDate(terminEndDate.getDate() + 1);
-                    event.end = terminEndDate.toISOString().split('T')[0];
-                } else {
-                    event.allDay = false;
-                    event.start = new Date(termin.Start).toISOString().split('.')[0];
-                    event.end = new Date(termin.Ende).toISOString().split('.')[0];
-                }
-
-                return event;
-            }
-            return null;
-        }).filter((e) => e !== null) as EventInput[];
-
-        setEvents(transformedEvents);
-    }, [termins]);
-
-    // let eventsArray: EventInterface[] = [];
-    // termins.map((termin: TerminInterface, i) => {
-    //     if (termin.Azubi && termin.Terminkey && termin.Start && termin.Ende && termin.Bezeichnung) {
-    //         let event: EventInterface = {
-    //             id: '',
-    //             title: '',
-    //             start: '',
-    //             end: '',
-    //             extendedProps: {
-    //                 description: '',
-    //                 location: ''
-    //             }
-    //         };
-    //
-    //         event.id = termin.Terminkey.toString();
-    //         if (termin.Vorname && termin.Nachname) {
-    //             event.title = `${termin.Bezeichnung} ${termin.Vorname} ${termin.Nachname}`;
-    //         } else {
-    //             event.title = `${termin.Bezeichnung}`;
-    //             event.extendedProps.description = `${termin.Bezeichnung}`;
-    //         }
-    //         if (termin.SerienterminID) {
-    //             event.extendedProps.location = termin.SerienterminID.toString();
-    //         }
-    //
-    //         if (termin.Bezeichnung === 'Berufsschule') {
-    //             event.backgroundColor = '#e63939';
-    //         }
-    //         if (termin.Ganztägig || new Date(termin.Ende).getDate() > new Date(termin.Start).getDate()) {
-    //             event.allDay = true
-    //             event.start = new Date(termin.Start).toISOString().split('T')[0];
-    //             const terminEndDate = new Date(termin.Ende);
-    //             terminEndDate.setDate(terminEndDate.getDate() + 1);
-    //             event.end = terminEndDate.toISOString().split('T')[0];
-    //         } else {
-    //             event.allDay = false
-    //             event.start = new Date(termin.Start).toISOString().split('.')[0];
-    //             event.end = new Date(termin.Ende).toISOString().split('.')[0];
-    //         }
-    //         event.className = 'event-font';
-    //         eventsArray.push(event)
-    //     }
-    // })
-
-
-    // useEffect(() => {
-    //     getTermins();
-    // }, [termins]);
+                return null;
+            });
+            setEvents(transformedEvents.filter(Boolean));
+        };
+        fetchEvents();
+    }, []);
 
     // @ts-ignore
     const handleEventClick = (info) => {
@@ -174,42 +114,42 @@ function Calendar() {
     };
 
     // @ts-ignore
-    const handleEventDrop = (info) => {
+    const handleEventDrop = async (eventDropInfo) => {
 
-        const {event} = info;
+        function toLocalISOString(date: Date) {
+            const tzOffset = date.getTimezoneOffset() * 60000;
+            const localISOTime = new Date(date.getTime() - tzOffset).toISOString().slice(0, -1);
+            return localISOTime;
+        }
 
-        // Update local state
-        setEvents((prevEvents) =>
-            prevEvents.map((evt) =>
-                evt.id === event.id
-                    ? {...evt, start: event.start?.toISOString(), end: event.end?.toISOString()}
-                    : evt
-            )
-        );
+        const terminID = eventDropInfo.oldEvent.id;
+        const newStart = toLocalISOString(eventDropInfo.event.start);
+        const newEnd = toLocalISOString(eventDropInfo.event.end);
+        let newSerieID;
+        if(eventDropInfo.oldEvent.extendedProps.location){
+            newSerieID = eventDropInfo.oldEvent.extendedProps.location
+        }
 
-        // const terminID = eventDropInfo.oldEvent.id;
-        // const newStart = eventDropInfo.event.start.toISOString();
-        // const newEnd = eventDropInfo.event.end.toISOString();
-        //
-        //
-        // const newEvent = {
-        //     id: terminID,
-        //     newStart: newStart,
-        //     newEnd: newEnd
-        // }
-        //
-        // try {
-        //     await fetch(`http://localhost:3010/api/termins/updateDraggedTermin`, {
-        //         method: 'PUT',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(newEvent)
-        //     });
-        // } catch (err) {
-        //     console.error('Error:', err);
-        //     console.log('An error occurred while creating the termin.');
-        // }
+
+        const newEvent = {
+            id: terminID,
+            newStart: newStart,
+            newEnd: newEnd,
+            newSerieID: newSerieID || null
+        }
+
+        try {
+            await fetch(`http://localhost:3010/api/termins/updateDraggedTermin`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newEvent)
+            });
+        } catch (err) {
+            console.error('Error:', err);
+            console.log('An error occurred while creating the termin.');
+        }
     }
 
     return (

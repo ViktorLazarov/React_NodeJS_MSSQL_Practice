@@ -82,6 +82,7 @@ const UpdateTerminPopup = ({eventInfo, updateClick}: Props): React.JSX.Element =
                     setGanztag(false);
                     const repeatDropdown = document.getElementById('vanish');
                     repeatDropdown.style.display = 'none';
+                    window.location.reload();
                 })
         } catch (err) {
             console.error('Error:', err);

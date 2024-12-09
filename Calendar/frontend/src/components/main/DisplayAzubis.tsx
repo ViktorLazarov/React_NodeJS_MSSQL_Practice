@@ -2,7 +2,7 @@ import {AzubiCard} from "./AzubiCard.tsx";
 import {UserInterface} from "../../types/UserInterface.ts";
 // @ts-ignore
 import '../../css/displayAzubis.css'
-import UpdatePopup from "./UpdatePopup.tsx";
+import UpdateAzubiPopup from "./UpdateAzubiPopup.tsx";
 import React, {useEffect, useState} from "react";
 
 type displayUsersProps = {

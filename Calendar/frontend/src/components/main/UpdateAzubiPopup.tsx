@@ -14,7 +14,7 @@ type Props = {
 }
 
 
-const UpdatePopup = ({user}: Props): React.JSX.Element => {
+const UpdateAzubiPopup = ({user}: Props): React.JSX.Element => {
 
     const [imageSrc, setImageSrc] = useState<string | ArrayBuffer | null>(convertBinaryToBase64(user.Bild));
     const [vorname, setVorname] = useState<string>(user.Vorname);
@@ -74,7 +74,7 @@ const UpdatePopup = ({user}: Props): React.JSX.Element => {
             formDataUpdate.append('image', userPic);
 
             try {
-                const response = await fetch('http://localhost:3010/api/users/updateAzubi', {
+                const response = await fetch('http://localhost:3010/api/azubis/updateAzubi', {
                     method: 'PUT',
                     body: formDataUpdate
                 })
@@ -229,4 +229,4 @@ const UpdatePopup = ({user}: Props): React.JSX.Element => {
     )
 }
 
-export default UpdatePopup;
+export default UpdateAzubiPopup;

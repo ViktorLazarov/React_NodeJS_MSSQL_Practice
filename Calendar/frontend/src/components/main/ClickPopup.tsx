@@ -29,6 +29,7 @@ const ClickPopup = ({eventInfo, onClose, updateClick}: Props): React.JSX.Element
                     method: 'DELETE'
                 }).then(() => {
                     onClose()
+                    window.location.reload()
                 })
 
             } catch (error) {

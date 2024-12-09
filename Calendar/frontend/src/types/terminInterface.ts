@@ -1,11 +1,11 @@
 export interface TerminInterface{
-    Azubi: string,
+    Terminkey: number,
     Bezeichnung: string,
     Start: Date,
     Ende: Date,
+    Azubi: string,
+    Ganztägig: number
     SerienterminID: string,
     Vorname: string,
     Nachname: string,
-    Terminkey: number,
-    Ganztägig: number
 }

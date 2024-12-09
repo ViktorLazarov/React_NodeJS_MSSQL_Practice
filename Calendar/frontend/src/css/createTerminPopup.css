@@ -56,7 +56,7 @@ input{
     font-size: 18px;
     height: 25px;
 }
-#vanish, #vanish1, #vanish2, #TerminBZ, #TerminBZ2, #TerminBZSerieBearbeiten, #TerminBZTerminBearbeiten {
+#vanish, #vanish1, #vanish2, #TerminBZ,#TerminBZ111, #TerminBZ2, #TerminBZSerieBearbeiten, #TerminBZTerminBearbeiten {
     display: none;
 }
 #vanishDropdown1 {
